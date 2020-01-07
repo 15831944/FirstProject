@@ -29,9 +29,9 @@ namespace Enum.Helper
         public static bool IsHide = false;
         //计时器 通过win32api实时获取鼠标位置
         private static bool IsMouseEnter = false;
-
         private Timer timer;
         #endregion
+        #region 窗体按钮事件注册
         public void ReLoad()
         {
             Task.Run(() =>
@@ -47,14 +47,13 @@ namespace Enum.Helper
             item["ItemTwo"].MouseDown += CloseForm;
             PubulicData.GCFN("hfan").Visible = false;
             PubulicData.GCFN("scan").Visible = false;
-            setButtonClick(new string[] { "hf", "sc", "ycxs", "btnWebClear", "btnAppCreate", "btnWebCreate", "btnAppClear", "btnClose", "btnWebTop", "btnAppTop", "btnWebUp", "btnAppUp", "btnWebDown", "btnAppDown","btnPT" });
+            setButtonClick(new string[] { "hf", "sc", "ycxs", "btnWebClear", "btnAppCreate", "btnWebCreate", "btnAppClear", "btnClose", "btnWebTop", "btnAppTop", "btnWebUp", "btnAppUp", "btnWebDown", "btnAppDown", "btnPT" });
             timer = new Timer();
             timer.Interval = 500;
             timer.Tick += new EventHandler(timer_Tick);
             timer.Start();
         }
-
-
+        #endregion
         #region 点击方法统一调用
         public void setButtonClick(string[] btnName)
         {
@@ -129,7 +128,7 @@ namespace Enum.Helper
             int NexIndex = 0;
             if (Cls == "上移" && NewIndex > btndate.Where(c => c.Type == bt.ToString() && c.State == "show").Min(c => c.Index))
             {
-                NexIndex = btndate.Where(c => c.Type == bt.ToString() && c.Index < NewIndex&&c.State== "show").Max(c => c.Index);
+                NexIndex = btndate.Where(c => c.Type == bt.ToString() && c.Index < NewIndex && c.State == "show").Max(c => c.Index);
             }
             else if (Cls == "下移" && NewIndex < btndate.Where(c => c.Type == bt.ToString() && c.State == "show").Max(c => c.Index))
             {
@@ -146,15 +145,16 @@ namespace Enum.Helper
             SX();
         }
         #endregion
-
         #region 设置按钮顺序
-        public void reSetIndex() {
+        public void reSetIndex()
+        {
             EnumDBContext dbc = new EnumDBContext();
             var btndate = dbc.Set<ButtonDate>();
             var btnWeb = btndate.Where(c => c.Type == BtnType.网站.ToString()).OrderBy(c => c.Index);
             var btnApp = btndate.Where(c => c.Type == BtnType.链接.ToString()).OrderBy(c => c.Index);
             int index = 1;
-            foreach (ButtonDate item in btnWeb) {
+            foreach (ButtonDate item in btnWeb)
+            {
                 item.Index = index;
                 index++;
             }
@@ -168,9 +168,6 @@ namespace Enum.Helper
             dbc.Dispose();
         }
         #endregion
-
-
-
         #region 按钮置顶
         /// <summary>
         /// 当前选择按钮置顶
@@ -204,7 +201,6 @@ namespace Enum.Helper
             SX();
         }
         #endregion
-
         #region 页面主体拖动
         public void FormMove()
         {
@@ -533,15 +529,8 @@ namespace Enum.Helper
         {
             if (id != 0)
             {
-                using (EnumDBContext db = new EnumDBContext())
-                {
-                    var dtall = db.Set<ButtonDate>();
-                    var model = dtall.FirstOrDefault(c => c.ID == id);
-                    model.State = "hiden";
-                    db.SaveChanges();
-                    id = 0;
-                    SX();
-                }
+                ActionHelper.ModifyButton(id, "hiden");
+                SX();
             }
         }
         #endregion
@@ -574,17 +563,11 @@ namespace Enum.Helper
             if (btnow != null)
             {
                 string name = btnow.Name;
-                using (EnumDBContext db = new EnumDBContext())
+                int id = 0;
+                string sid = name.Substring(2, name.Length - 2);
+                if (Int32.TryParse(sid, out id))
                 {
-                    var dtall = db.Set<ButtonDate>();
-                    foreach (ButtonDate item in dtall)
-                    {
-                        if (name.Substring(2, name.Length - 2) == item.ID.ToString())
-                        {
-                            item.State = "show";
-                        }
-                    }
-                    db.SaveChanges();
+                    ActionHelper.ModifyButton(id, "show");
                     SX();
                 }
             }
@@ -626,59 +609,40 @@ namespace Enum.Helper
                 string btnname = "";
                 string btnllq = "";
                 string btnurl = "";
-                int index = 0;
-                using (EnumDBContext ec = new EnumDBContext())
+                ButtonDate bd = new ButtonDate();
+                bd.ID = id;
+                if (name == "btnWebCreate")
                 {
-                    var dateall = ec.Set<ButtonDate>();
-                    var datemax = dateall.OrderByDescending(c => c.Index).FirstOrDefault();
-                    if (datemax != null) { index = datemax.Index; }
-                    index++;
-                    ButtonDate bd = null;
-                    if (id != 0)
-                    {
-                        bd = dateall.FirstOrDefault(c => c.ID == id);
-
-                    }
-                    else
-                    {
-                        bd = new ButtonDate();
-                        bd.Index = index;
-                        dateall.Add(bd);
-                    }
-                    if (name == "btnWebCreate")
-                    {
-                        string url = PubulicData.GCFN("weburl").Text;
-                        url = url.Trim('"');
-                        btnname = PubulicData.GCFN("webbtn").Text;
-                        btnllq = PubulicData.GCFN("webllq").Text;
-                        btnurl = url;
-                        bd.Name = btnname;
-                        bd.Url = btnurl;
-                        bd.Browser = btnllq;
-                        bd.Type = "网站";
-                        bd.State = "show";
-                        bd.CreateDate = DateTime.Now;
-                        bd.CreateIP = LoacationHelper.GetLocalIP();
-                        bd.CreateMac = LoacationHelper.GetMac();
-                    }
-                    if (name == "btnAppCreate")
-                    {
-                        string url = PubulicData.GCFN("appurl").Text;
-                        url = url.Trim('"');
-                        btnname = PubulicData.GCFN("appname").Text;
-                        btnurl = url;
-                        bd.Name = btnname;
-                        bd.Url = btnurl;
-                        bd.Type = "链接";
-                        bd.State = "show";
-                        bd.CreateDate = DateTime.Now;
-                        bd.CreateIP = LoacationHelper.GetLocalIP();
-                        bd.CreateMac = LoacationHelper.GetMac();
-                    }
-                    ec.SaveChanges();
-                    SX();
+                    string url = PubulicData.GCFN("weburl").Text;
+                    url = url.Trim('"');
+                    btnname = PubulicData.GCFN("webbtn").Text;
+                    btnllq = PubulicData.GCFN("webllq").Text;
+                    btnurl = url;
+                    bd.Name = btnname;
+                    bd.Url = btnurl;
+                    bd.Browser = btnllq;
+                    bd.Type = "网站";
+                    bd.State = "show";
+                    bd.CreateDate = DateTime.Now;
+                    bd.CreateIP = LoacationHelper.GetLocalIP();
+                    bd.CreateMac = LoacationHelper.GetMac();
                 }
-
+                if (name == "btnAppCreate")
+                {
+                    string url = PubulicData.GCFN("appurl").Text;
+                    url = url.Trim('"');
+                    btnname = PubulicData.GCFN("appname").Text;
+                    btnurl = url;
+                    bd.Name = btnname;
+                    bd.Url = btnurl;
+                    bd.Type = "链接";
+                    bd.State = "show";
+                    bd.CreateDate = DateTime.Now;
+                    bd.CreateIP = LoacationHelper.GetLocalIP();
+                    bd.CreateMac = LoacationHelper.GetMac();
+                }
+                ActionHelper.saveButton(bd);
+                SX();
             }
         }
         #endregion
@@ -765,7 +729,8 @@ namespace Enum.Helper
         }
         #endregion
         #region 假装关闭
-        public void frmClosing() {
+        public void frmClosing()
+        {
             IsHide = true;
             fm.Hide();
         }

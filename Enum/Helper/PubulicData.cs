@@ -16,6 +16,10 @@ namespace Enum.Helper
         /// </summary>
         public static NotifyIcon icon { get; set; }
         /// <summary>
+        /// 是否从数据库获取数据
+        /// </summary>
+        public static bool isDataFromSql { get; set; }
+        /// <summary>
         /// 图标选项
         /// </summary>
         public static Dictionary<string, ToolStripMenuItem> item { get; set; }

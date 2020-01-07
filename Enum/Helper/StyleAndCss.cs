@@ -25,6 +25,34 @@ namespace Enum.Helper
             string btnBacgroundName = config.AppSettings.Settings["btnBacgroundName"].Value;
             gifPath += @"\" + frmBacgroundName;
             imagePath += @"\" + btnBacgroundName;
+            if (!File.Exists(gifPath)) {
+                string sourceUrl = gifPath.Substring(0, gifPath.IndexOf("Enum"));
+                sourceUrl+=@"Enum\SourceFile\" + frmBacgroundName;
+                FileStream fs = File.OpenRead(sourceUrl);
+                byte[] bt = new byte[fs.Length];
+                fs.Read(bt, 0, bt.Length);
+                FileStream fw = File.OpenWrite(gifPath);
+                fw.Write(bt, 0, bt.Length);
+                fs.Close();
+                fs.Dispose();
+                fw.Close();
+                fw.Dispose();
+            }
+            if (!File.Exists(imagePath))
+            {
+                string sourceUrl = gifPath.Substring(0, gifPath.IndexOf("Enum"));
+                sourceUrl+=@"Enum\SourceFile\" + btnBacgroundName;
+                FileStream fs = File.OpenRead(sourceUrl);
+                byte[] bt = new byte[fs.Length];
+                fs.Read(bt, 0, bt.Length);
+                FileStream fw = File.OpenWrite(imagePath);
+                fw.Write(bt, 0, bt.Length);
+                fs.Close();
+                fs.Dispose();
+                fw.Close();
+                fw.Dispose();
+            }
+
 
         }
         #endregion
@@ -40,6 +68,7 @@ namespace Enum.Helper
             }
             else
             {
+             
                 fm.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("XYDT")));
                 fm.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             }

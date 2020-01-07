@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Point = System.Drawing.Point;
 using Action = System.Action;
 using Enum.Helper;
+using System.Configuration;
 
 namespace EnumSpace
 {
@@ -35,6 +36,13 @@ namespace EnumSpace
         public EnumClass()
         {
             InitializeComponent();
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            string strIsDataToSql = config.AppSettings.Settings["isDataFromSql"].Value;
+            bool isDataToSql = true;
+            if (!string.IsNullOrEmpty(strIsDataToSql)) {
+                bool.TryParse(strIsDataToSql, out isDataToSql);
+            }
+            PubulicData.isDataFromSql = isDataToSql;
             PubulicData.em = this;
             PubulicData.icon = Nicon;
             Dictionary<string, ToolStripMenuItem> item = new Dictionary<string, ToolStripMenuItem>();

@@ -30,7 +30,7 @@ namespace Enum.HelpForm
             string type = cboType.SelectedValue.ToString();
             if (!string.IsNullOrEmpty(password) && !string.IsNullOrEmpty(type))
             {
-                txtText.Text = getPT(password,type);
+                txtText.Text = getPT(password, type);
             }
         }
         private void btnToText_Click(object sender, EventArgs e)
@@ -47,7 +47,11 @@ namespace Enum.HelpForm
                 dictionaryPassword.Plaintext = text;
                 dictionaryPassword.PwdType = type;
                 dictionaryPassword.CreateDate = DateTime.Now;
-                savePT(dictionaryPassword);
+                Task.Run(() =>
+                {
+                    savePT(dictionaryPassword);
+                });
+
 
             }
         }
@@ -55,9 +59,16 @@ namespace Enum.HelpForm
 
         private string getPT(string Password, string type)
         {
-            EnumDBContext ec = new EnumDBContext();
-            var db = ec.Set<DictionaryPassword>();
             string pwd = "";
+            List<DictionaryPassword> db = new List<DictionaryPassword>();
+            if (PubulicData.isDataFromSql)
+            {
+                db = ActionHelper.getList<DictionaryPassword>();
+            }
+            else
+            {
+                db = ActionHelper.getDataFromFile<DictionaryPassword>("DicPassword.xlsx", "EnumData");
+            }
             DictionaryPassword model = db.FirstOrDefault(c => c.PwdType == type && c.Password == Password);
             if (model == null)
             {
@@ -67,21 +78,20 @@ namespace Enum.HelpForm
             {
                 pwd = model.Plaintext;
             }
-            ec.SaveChanges();
-            ec.Dispose();
             return pwd;
         }
 
+
         private void savePT(DictionaryPassword model)
         {
-            EnumDBContext ec = new EnumDBContext();
-            var db = ec.Set<DictionaryPassword>();
-            if (db.FirstOrDefault(c => c.Password == model.Password && c.Plaintext == model.Plaintext) == null)
+            if (PubulicData.isDataFromSql)
             {
-                db.Add(model);
+                ActionHelper.ModifyPWDToSQL(model);
             }
-            ec.SaveChanges();
-            ec.Dispose();
+            else
+            {
+                ActionHelper.ModifyPWDToFile(model);
+            }
         }
 
 
