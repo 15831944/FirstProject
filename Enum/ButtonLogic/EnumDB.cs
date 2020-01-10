@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace T4ConsoleApplication.Entities
+namespace EnumProject.ButtonLogic
 {    
 
     public class ButtonDate
@@ -25,8 +25,6 @@ namespace T4ConsoleApplication.Entities
          
         public string CreateIP { get; set; }
         public string CreateMac { get; set; }
-
-
     }
 }
 

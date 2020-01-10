@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using Point = System.Drawing.Point;
 using Action = System.Action;
-using Enum.Helper;
+using EnumProject.Helper;
 using System.Configuration;
+using EnumProject.Helper;
 
 namespace EnumSpace
 {
@@ -52,9 +53,15 @@ namespace EnumSpace
             _dataHelper = new DataHelper();
             _formHelper = new FormHelper();
             _styleAndCss = new StyleAndCss();
+            Task.Run(() => ActionHelper.setSourse()).Wait();
+            //设置全局数据源
             _formHelper.ReLoad();
             Task.Run(() => DataHelper.CreateDB(() => Invoke((Action)reSetData)));
             reSetData();
+
+
+
+
         }
 
         #endregion

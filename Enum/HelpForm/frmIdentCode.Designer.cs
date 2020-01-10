@@ -1,4 +1,4 @@
-﻿namespace Enum.HelpForm
+﻿namespace EnumProject.HelpForm
 {
     partial class frmIdentCode
     {
@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblYZM = new Enum.OwerControl.TTLabel();
-            this.txtIdentCode = new Enum.OwerControl.TTTextBox();
+            this.lblYZM = new EnumProject.OwerControl.TTLabel();
+            this.txtIdentCode = new EnumProject.OwerControl.TTTextBox();
             this.picIdentCode = new System.Windows.Forms.PictureBox();
             this.btnLogin = new System.Windows.Forms.Button();
-            this.lblEmailUser = new Enum.OwerControl.TTLabel();
-            this.txtUser = new Enum.OwerControl.TTTextBox();
-            this.lblPassword = new Enum.OwerControl.TTLabel();
-            this.txtPwd = new Enum.OwerControl.TTTextBox();
+            this.lblEmailUser = new EnumProject.OwerControl.TTLabel();
+            this.txtUser = new EnumProject.OwerControl.TTTextBox();
+            this.lblPassword = new EnumProject.OwerControl.TTLabel();
+            this.txtPwd = new EnumProject.OwerControl.TTTextBox();
             this.btnCon = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.picIdentCode)).BeginInit();
             this.SuspendLayout();

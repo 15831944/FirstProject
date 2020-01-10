@@ -6,9 +6,9 @@ using System.Drawing;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using Enum.OwerControl;
+using EnumProject.OwerControl;
 
-namespace Enum.HelpForm
+namespace EnumProject.HelpForm
 {
     public partial class frmChangeCode : Form
     {

@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Enum.HelpForm
+namespace EnumProject.HelpForm
 {
     public partial class frmIdentCode : Form
     {

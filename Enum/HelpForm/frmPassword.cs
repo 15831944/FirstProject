@@ -10,11 +10,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CsharpHttpHelper;
-using Enum.ButtonLogic;
-using Enum.Helper;
+using EnumProject.ButtonLogic;
+using EnumProject.Helper;
 using EnumSpace;
 
-namespace Enum.HelpForm
+namespace EnumProject.HelpForm
 {
     public partial class frmPassword : Form
     {
@@ -60,15 +60,7 @@ namespace Enum.HelpForm
         private string getPT(string Password, string type)
         {
             string pwd = "";
-            List<DictionaryPassword> db = new List<DictionaryPassword>();
-            if (PubulicData.isDataFromSql)
-            {
-                db = ActionHelper.getList<DictionaryPassword>();
-            }
-            else
-            {
-                db = ActionHelper.getDataFromFile<DictionaryPassword>("DicPassword.xlsx", "EnumData");
-            }
+            List<DictionaryPassword> db = PubulicData.sourceData[PubulicData.ClassName.DictionaryPassword.ToString()] as List<DictionaryPassword>;
             DictionaryPassword model = db.FirstOrDefault(c => c.PwdType == type && c.Password == Password);
             if (model == null)
             {

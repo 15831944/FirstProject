@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Enum.Helper
+namespace EnumProject.Helper
 {
     public class PasswordHelper
     {

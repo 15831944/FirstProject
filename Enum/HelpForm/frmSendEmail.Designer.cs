@@ -1,4 +1,4 @@
-﻿namespace Enum.HelpForm
+﻿namespace EnumProject.HelpForm
 {
     partial class frmSendEmail
     {
@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtContent = new Enum.OwerControl.TTTextBox();
-            this.txtToUser = new Enum.OwerControl.TTTextBox();
-            this.lblToUser = new Enum.OwerControl.TTLabel();
-            this.btnSend = new Enum.OwerControl.TTButton();
-            this.btnClear = new Enum.OwerControl.TTButton();
-            this.lblTitle = new Enum.OwerControl.TTLabel();
-            this.txtTitle = new Enum.OwerControl.TTTextBox();
-            this.lblType = new Enum.OwerControl.TTLabel();
+            this.txtContent = new EnumProject.OwerControl.TTTextBox();
+            this.txtToUser = new EnumProject.OwerControl.TTTextBox();
+            this.lblToUser = new EnumProject.OwerControl.TTLabel();
+            this.btnSend = new EnumProject.OwerControl.TTButton();
+            this.btnClear = new EnumProject.OwerControl.TTButton();
+            this.lblTitle = new EnumProject.OwerControl.TTLabel();
+            this.txtTitle = new EnumProject.OwerControl.TTTextBox();
+            this.lblType = new EnumProject.OwerControl.TTLabel();
             this.comType = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 

@@ -1,4 +1,4 @@
-﻿namespace Enum.HelpForm
+﻿namespace EnumProject.HelpForm
 {
     partial class frmSetVido
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panContent = new Enum.OwerControl.TTPanel();
+            this.panContent = new EnumProject.OwerControl.TTPanel();
             this.dgvFiles = new System.Windows.Forms.DataGridView();
             this.colIndex = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colFileName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -36,11 +36,11 @@
             this.colSize = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colRemark = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.colChangeFile = new System.Windows.Forms.DataGridViewLinkColumn();
-            this.btnUpdateFile = new Enum.OwerControl.TTButton();
-            this.panTop = new Enum.OwerControl.TTPanel();
-            this.btnChangeFiles = new Enum.OwerControl.TTButton();
-            this.btnDelete = new Enum.OwerControl.TTButton();
-            this.panBottom = new Enum.OwerControl.TTPanel();
+            this.btnUpdateFile = new EnumProject.OwerControl.TTButton();
+            this.panTop = new EnumProject.OwerControl.TTPanel();
+            this.btnChangeFiles = new EnumProject.OwerControl.TTButton();
+            this.btnDelete = new EnumProject.OwerControl.TTButton();
+            this.panBottom = new EnumProject.OwerControl.TTPanel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn2 = new System.Windows.Forms.DataGridViewTextBoxColumn();

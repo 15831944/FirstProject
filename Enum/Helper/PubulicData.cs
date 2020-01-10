@@ -2,7 +2,9 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Forms;
-namespace Enum.Helper
+using EnumProject.ButtonLogic;
+
+namespace EnumProject.Helper
 {
 
     public static class PubulicData
@@ -12,6 +14,10 @@ namespace Enum.Helper
         /// </summary>
         public static EnumSpace.EnumClass em { get; set; }
         /// <summary>
+        /// 用文件作为数据源
+        /// </summary>
+        public static Dictionary<string,object> sourceDate { get; set; }
+        /// <summary>
         /// 窗体图标
         /// </summary>
         public static NotifyIcon icon { get; set; }
@@ -19,6 +25,11 @@ namespace Enum.Helper
         /// 是否从数据库获取数据
         /// </summary>
         public static bool isDataFromSql { get; set; }
+        /// <summary>
+        /// 初始话数据
+        /// </summary>
+        public static Dictionary<string, object> sourceData { get; set; }
+
         /// <summary>
         /// 图标选项
         /// </summary>
@@ -42,6 +53,13 @@ namespace Enum.Helper
             网站,
             [Description("app")]
             链接
+        }
+        public enum ClassName
+        {
+            [Description("按钮信息表")]
+            ButtonDate,
+            [Description("密码字典表")]
+            DictionaryPassword
         }
     }
 }

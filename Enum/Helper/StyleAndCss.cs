@@ -1,11 +1,11 @@
-﻿using Enum.OwerControl;
+﻿using EnumProject.OwerControl;
 using System;
 using System.Configuration;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Enum.Helper
+namespace EnumProject.Helper
 {
     public class StyleAndCss
     {

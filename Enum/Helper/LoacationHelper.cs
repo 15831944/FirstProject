@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-namespace Enum.Helper
+namespace EnumProject.Helper
 {
     public class LoacationHelper
     {

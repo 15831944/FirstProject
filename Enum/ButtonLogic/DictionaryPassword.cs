@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Enum.ButtonLogic
+namespace EnumProject.ButtonLogic
 {
     public class DictionaryPassword
     {

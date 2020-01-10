@@ -1,4 +1,4 @@
-﻿namespace Enum.HelpForm
+﻿namespace EnumProject.HelpForm
 {
     partial class frmPassword
     {
@@ -28,14 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.txtPassword = new Enum.OwerControl.TTTextBox();
-            this.txtText = new Enum.OwerControl.TTTextBox();
-            this.btnToPassword = new Enum.OwerControl.TTButton();
-            this.btnToText = new Enum.OwerControl.TTButton();
-            this.lblPassword = new Enum.OwerControl.TTLabel();
-            this.lblText = new Enum.OwerControl.TTLabel();
+            this.txtPassword = new EnumProject.OwerControl.TTTextBox();
+            this.txtText = new EnumProject.OwerControl.TTTextBox();
+            this.btnToPassword = new EnumProject.OwerControl.TTButton();
+            this.btnToText = new EnumProject.OwerControl.TTButton();
+            this.lblPassword = new EnumProject.OwerControl.TTLabel();
+            this.lblText = new EnumProject.OwerControl.TTLabel();
             this.cboType = new System.Windows.Forms.ComboBox();
-            this.ttLabel1 = new Enum.OwerControl.TTLabel();
+            this.ttLabel1 = new EnumProject.OwerControl.TTLabel();
             this.SuspendLayout();
             // 
             // txtPassword

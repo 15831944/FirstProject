@@ -1,4 +1,4 @@
-﻿namespace Enum.HelpForm
+﻿namespace EnumProject.HelpForm
 {
     partial class frmOtherFormMain
     {
@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmOtherFormMain));
-            this.btnPassWordOrText = new Enum.OwerControl.TTButton();
-            this.btnVido = new Enum.OwerControl.TTButton();
-            this.btnDecode = new Enum.OwerControl.TTButton();
-            this.btnEmail = new Enum.OwerControl.TTButton();
+            this.btnPassWordOrText = new EnumProject.OwerControl.TTButton();
+            this.btnVido = new EnumProject.OwerControl.TTButton();
+            this.btnDecode = new EnumProject.OwerControl.TTButton();
+            this.btnEmail = new EnumProject.OwerControl.TTButton();
             this.SuspendLayout();
             // 
             // btnPassWordOrText

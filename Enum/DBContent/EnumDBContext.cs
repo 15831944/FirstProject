@@ -4,7 +4,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using T4ConsoleApplication.Entities;
+using EnumProject.ButtonLogic;
 
 namespace EnumSpace
 {

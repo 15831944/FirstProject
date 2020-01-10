@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 //using System.Windows.Forms;
-using T4ConsoleApplication.Entities;
+using EnumProject.ButtonLogic;
 
 namespace EnumSpace
 {

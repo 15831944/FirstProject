@@ -1,4 +1,4 @@
-﻿namespace Enum.HelpForm
+﻿namespace EnumProject.HelpForm
 {
     partial class frmChangeCode
     {
@@ -28,16 +28,16 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.lblTwo = new Enum.OwerControl.TTLabel();
-            this.txtTen = new Enum.OwerControl.TTTextBox();
-            this.ttLabel2 = new Enum.OwerControl.TTLabel();
-            this.txtEight = new Enum.OwerControl.TTTextBox();
-            this.ttLabel3 = new Enum.OwerControl.TTLabel();
-            this.txtTwo = new Enum.OwerControl.TTTextBox();
-            this.ttLabel1 = new Enum.OwerControl.TTLabel();
-            this.txtSixteen = new Enum.OwerControl.TTTextBox();
-            this.ttLabel7 = new Enum.OwerControl.TTLabel();
-            this.txtUnicode = new Enum.OwerControl.TTTextBox();
+            this.lblTwo = new EnumProject.OwerControl.TTLabel();
+            this.txtTen = new EnumProject.OwerControl.TTTextBox();
+            this.ttLabel2 = new EnumProject.OwerControl.TTLabel();
+            this.txtEight = new EnumProject.OwerControl.TTTextBox();
+            this.ttLabel3 = new EnumProject.OwerControl.TTLabel();
+            this.txtTwo = new EnumProject.OwerControl.TTTextBox();
+            this.ttLabel1 = new EnumProject.OwerControl.TTLabel();
+            this.txtSixteen = new EnumProject.OwerControl.TTTextBox();
+            this.ttLabel7 = new EnumProject.OwerControl.TTLabel();
+            this.txtUnicode = new EnumProject.OwerControl.TTTextBox();
             this.SuspendLayout();
             // 
             // lblTwo

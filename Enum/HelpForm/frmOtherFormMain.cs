@@ -6,7 +6,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Enum.HelpForm
+namespace EnumProject.HelpForm
 {
     public partial class frmOtherFormMain : Form
     {

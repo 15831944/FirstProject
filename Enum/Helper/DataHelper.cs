@@ -1,5 +1,5 @@
-﻿using Enum.ButtonLogic;
-using Enum.OwerControl;
+﻿using EnumProject.ButtonLogic;
+using EnumProject.OwerControl;
 using EnumSpace;
 using Microsoft.Office.Interop.Excel;
 using Microsoft.Office.Interop.ExcelEdit;
@@ -11,9 +11,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using T4ConsoleApplication.Entities;
+using EnumProject.ButtonLogic;
 using Action = System.Action;
-namespace Enum.Helper
+namespace EnumProject.Helper
 {
     public class DataHelper
     {
@@ -42,12 +42,9 @@ namespace Enum.Helper
         public void setFile()
         {
             if (!PubulicData.isDataFromSql) { return; }
-            using (EnumDBContext ec = new EnumDBContext())
-            {
-                var dataAll = ec.Set<ButtonDate>().ToList();
-                if (dataAll.Count() < 1) { return; }
-                ActionHelper.saveDataToFile(dataAll, "EnumSource.xlsx", "EnumData");
-            }
+            List<ButtonDate> dataAll = PubulicData.sourceData[PubulicData.ClassName.ButtonDate.ToString()] as List<ButtonDate>;
+            if (dataAll.Count() < 1) { return; }
+            PubulicData.sourceData[PubulicData.ClassName.ButtonDate.ToString()] = dataAll;
         }
         #endregion
         #region 删除重复数据和空数据
@@ -68,19 +65,19 @@ namespace Enum.Helper
         {
             using (EnumDBContext ec = new EnumDBContext())
             {
-                var dateall = ec.Set<ButtonDate>();
-                if (dateall.Count() < 1) { return; }
-                List<ButtonDate> btnList = dateall.ToList();
+                var dataAll = ec.Set<ButtonDate>();
+                if (dataAll.Count() < 1) { return; }
+                List<ButtonDate> btnList = dataAll.ToList();
                 List<string> btnListTwo = new List<string>();
                 foreach (ButtonDate item in btnList)
                 {
                     if (string.IsNullOrEmpty(item.Name) || string.IsNullOrEmpty(item.Url))
                     {
-                        dateall.Remove(item);
+                        dataAll.Remove(item);
                     }
                     if (btnListTwo.Contains(item.Name))
                     {
-                        dateall.Remove(item);
+                        dataAll.Remove(item);
                     }
                     else
                     {
@@ -94,7 +91,7 @@ namespace Enum.Helper
         #region 删除文件的 重复和空数据
         public void DeleteFileRep()
         {
-            List<ButtonDate> btnList = ActionHelper.getDataFromFile<ButtonDate>("EnumSource.xlsx", "EnumData");
+            List<ButtonDate> btnList = PubulicData.sourceData[PubulicData.ClassName.ButtonDate.ToString()] as List<ButtonDate>;
             List<ButtonDate> saveList = new List<ButtonDate>();
             saveList = btnList.GetRange(0, btnList.Count);
             List<string> btnListTwo = new List<string>();
@@ -115,7 +112,7 @@ namespace Enum.Helper
             }
             if (saveList.Count > 0)
             {
-                ActionHelper.saveDataToFile(saveList, "EnumSource.xlsx", "EnumData");
+                PubulicData.sourceData[PubulicData.ClassName.ButtonDate.ToString()] = saveList;
             }
         }
         #endregion
@@ -123,40 +120,34 @@ namespace Enum.Helper
         public void setData(Action act)
         {
             if (!PubulicData.isDataFromSql) { return; }
-            using (EnumDBContext ec = new EnumDBContext())
+            List<ButtonDate> dataAll = ActionHelper.getListFromSQL<ButtonDate>();
+            if (dataAll.Count() > 1) { return; }
+            var fileData = PubulicData.sourceData[PubulicData.ClassName.ButtonDate.ToString()] as List<ButtonDate>;
+            foreach (ButtonDate item in fileData)
             {
-                var dataall = ec.Set<ButtonDate>();
-                if (dataall.Count() > 1) { return; }
-                var fileData =ActionHelper.getDataFromFile<ButtonDate>("EnumSource.xlsx", "EnumData");
-                foreach (ButtonDate item in fileData)
-                {
-                    dataall.Add(item);
-                }
-
-                if (dataall.Count() < 1)
-                {
-                    DateTime dt = DateTime.Now;
-                    string nm = dt.Ticks.ToString();
-                    ButtonDate bd = new ButtonDate();
-                    bd.Name = nm;
-                    dataall.Add(bd);
-                    ec.SaveChanges();
-                    var dtr = ec.Set<ButtonDate>().FirstOrDefault(c => c.Name == nm);
-                    dataall.Remove(dtr);
-                }
-                ec.SaveChanges();
-                act();
+                dataAll.Add(item);
             }
+            if (dataAll.Count() < 1)
+            {
+                DateTime dt = DateTime.Now;
+                string nm = dt.Ticks.ToString();
+                ButtonDate bd = new ButtonDate();
+                bd.Name = nm;
+                ActionHelper.saveInfo<ButtonDate>(bd);
+                Dictionary<string, object> param = new Dictionary<string, object>();
+                param.Add("Name", nm);
+                ActionHelper.Delete<ButtonDate>(param);
+            }
+            act();
         }
         #endregion
-     
         #region 加载页面数据
         public void MainInit()
         {
             ClearBuntton();
             List<ButtonDate> allbtn = new List<ButtonDate>();
             List<ButtonDate> hfbtn = new List<ButtonDate>();
-            List<ButtonDate> list = getSourceList();
+            List<ButtonDate> list = PubulicData.sourceData[PubulicData.ClassName.ButtonDate.ToString()] as List<ButtonDate>;
             allbtn = list.Where(c => c.State == "show").OrderBy(c => c.Index).ToList();
             hfbtn = list.Where(c => c.State == "hiden").ToList();
             int i = 0;
@@ -203,24 +194,6 @@ namespace Enum.Helper
             }
         }
         #endregion
-        #region 获取数据
-        public List<ButtonDate> getSourceList()
-        {
-            bool isDataToSqlServer = PubulicData.isDataFromSql;
-            List<ButtonDate> Sourcelist = new List<ButtonDate>();
-            if (isDataToSqlServer)
-            {
-               Sourcelist=ActionHelper.getList<ButtonDate>();
-            }
-            else
-            {
-                Sourcelist = ActionHelper.getDataFromFile<ButtonDate>("EnumSource.xlsx", "EnumData");
-             }
-            return Sourcelist;
-        }
-        #endregion
-      
-      
         #region 清除页面按钮
         public void ClearBuntton()
         {
@@ -318,7 +291,6 @@ namespace Enum.Helper
         //    }
         //}
         #endregion
-
         #region 上传文件到阿里云
         public void uploadfiles(string objectName, string localFilename)
         {
@@ -340,46 +312,23 @@ namespace Enum.Helper
         /// </summary>
         public void setPasswordDictionary()
         {
+            var dataAll = PubulicData.sourceData[PubulicData.ClassName.ButtonDate.ToString()] as List<DictionaryPassword>;
+            if (dataAll.Count() > 1) { return; }
+            BackgroundWorker backworker = new BackgroundWorker();
+            backworker.DoWork += new DoWorkEventHandler(setNumber);
+            backworker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(saveDic);
+            backworker.RunWorkerAsync();
             if (PubulicData.isDataFromSql)
             {
-                setPasswordDictionaryToSqlServer();
-            }
-            else
-            {
-                setPasswordDictionaryToFile();
+                BackgroundWorker backworkerchar = new BackgroundWorker();
+                backworker.DoWork += new DoWorkEventHandler(DoworkCreatCharFour);
+                backworker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(saveDic);
+                backworker.RunWorkerAsync();
             }
 
         }
         #endregion
-        #region 设置常用密码字典到数据库
-        /// <summary>
-        /// 设置常用密码字典到数据库
-        /// </summary>
-        public void setPasswordDictionaryToSqlServer()
-        {
-            EnumDBContext ec = new EnumDBContext();
-            var dateall = ec.Set<DictionaryPassword>();
-            if (dateall.Count() > 1) { return; }
-            ec.Dispose();
-            BackgroundWorker backworker = new BackgroundWorker();
-            backworker.DoWork += new DoWorkEventHandler(setNumber);
-            backworker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(saveDicToSql);
-            backworker.RunWorkerAsync();
-
-        }
-        #endregion
-        #region 设置常用密码字典到文件
-        public void setPasswordDictionaryToFile()
-        {
-            var dateall = ActionHelper.getDataFromFile<DictionaryPassword>("DicPassword.xlsx", "EnumData");
-            if (dateall.Count() > 1) { return; }
-            BackgroundWorker backworker = new BackgroundWorker();
-            backworker.DoWork += new DoWorkEventHandler(setNumber);
-            backworker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(saveDicToFile);
-            backworker.RunWorkerAsync();
-        }
-        #endregion
-        #region 设置纯数字密码字典到数据库
+        #region 获取纯数字密码字典
         public void setNumber(object sender, DoWorkEventArgs e)
         {
             int len = 4;
@@ -416,60 +365,17 @@ namespace Enum.Helper
         #endregion
         #region 保存密码字典
         /// <summary>
-        /// 保存密码字典到数据库
+        /// 保存密码字典
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void saveDicToSql(object sender, RunWorkerCompletedEventArgs e)
+        public void saveDic(object sender, RunWorkerCompletedEventArgs e)
         {
             List<DictionaryPassword> ldic = e.Result as List<DictionaryPassword>;
-            foreach (DictionaryPassword item in ldic)
-            {
-                EnumDBContext ec = new EnumDBContext();
-                var db = ec.Set<DictionaryPassword>();
-                db.Add(item);
-                ec.SaveChanges();
-                ec.Dispose();
-            }
+            ActionHelper.saveData(ldic);
         }
         #endregion
-        #region 保存密码字典
-        /// <summary>
-        /// 保存密码字典到数据库
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void saveDicToFile(object sender, RunWorkerCompletedEventArgs e)
-        {
-            List<DictionaryPassword> ldic = e.Result as List<DictionaryPassword>;
-            ActionHelper.saveDataToFile(ldic, "DicPassword.xlsx", "EnumData");
-        }
-        #endregion
-        #region 设置字母和数字四位密码字典
-        public void setCharAndNumber(object sender, DoWorkEventArgs e)
-        {
-            BackgroundWorker backworker = new BackgroundWorker();
-            backworker.DoWork += new DoWorkEventHandler(DoworkCreatCharFour);
-            backworker.RunWorkerCompleted += new RunWorkerCompletedEventHandler(CompletedCreatCharFour);
-        }
-
-        private void CompletedCreatCharFour(object sender, RunWorkerCompletedEventArgs e)
-        {
-            List<DictionaryPassword> ldic = e.Result as List<DictionaryPassword>;
-            foreach (DictionaryPassword item in ldic)
-            {
-                EnumDBContext ec = new EnumDBContext();
-                var db = ec.Set<DictionaryPassword>();
-                if (db.FirstOrDefault(c => c.Password == item.Password && c.Plaintext == item.Plaintext) == null)
-                {
-                    db.Add(item);
-                }
-                ec.SaveChanges();
-                ec.Dispose();
-            }
-
-        }
-
+        #region 获取四位常用密码
         private void DoworkCreatCharFour(object sender, DoWorkEventArgs e)
         {
             List<string> StrList = new List<string>();

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Enum.Properties {
+namespace EnumProject.Properties {
     using System;
     
     

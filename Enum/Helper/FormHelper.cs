@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using T4ConsoleApplication.Entities;
-using Enum.OwerControl;
+using EnumProject.ButtonLogic;
+using EnumProject.OwerControl;
 using System.Threading.Tasks;
-using static Enum.Helper.PubulicData;
-using Enum.HelpForm;
+using static EnumProject.Helper.PubulicData;
+using EnumProject.HelpForm;
 
-namespace Enum.Helper
+namespace EnumProject.Helper
 {
     public class FormHelper
     {
@@ -120,8 +120,7 @@ namespace Enum.Helper
         public void setButtonUpOrDown(BtnType bt, string Cls)
         {
             if (id == 0) { return; }
-            EnumDBContext dbc = new EnumDBContext();
-            var btndate = dbc.Set<ButtonDate>();
+            List<ButtonDate> btndate = PubulicData.sourceData[PubulicData.ClassName.ButtonDate.ToString()] as List<ButtonDate>;
             ButtonDate btnd = btndate.FirstOrDefault(c => c.ID == id);
             if (btnd == null) { return; }
             int NewIndex = btnd.Index;
@@ -140,8 +139,7 @@ namespace Enum.Helper
                 btnd.Index = NexIndex;
                 model.Index = NewIndex;
             }
-            dbc.SaveChanges();
-            dbc.Dispose();
+            PubulicData.sourceData[PubulicData.ClassName.ButtonDate.ToString()] = btndate;
             SX();
         }
         #endregion
@@ -175,8 +173,8 @@ namespace Enum.Helper
         public void setButtonTop(BtnType tp)
         {
             if (id == 0) { return; }
-            EnumDBContext dbc = new EnumDBContext();
-            var btndate = dbc.Set<ButtonDate>();
+
+            List<ButtonDate> btndate = PubulicData.sourceData[PubulicData.ClassName.ButtonDate.ToString()] as List<ButtonDate>;
             ButtonDate btnd = btndate.FirstOrDefault(c => c.ID == id);
             if (btnd == null) { return; }
             if (btndate.FirstOrDefault(c => c.Index == 1 && c.Type == tp.ToString()) == null) { btnd.Index = 1; }
@@ -196,8 +194,7 @@ namespace Enum.Helper
                     }
                 }
             }
-            dbc.SaveChanges();
-            dbc.Dispose();
+            PubulicData.sourceData[PubulicData.ClassName.ButtonDate.ToString()] = btndate;
             SX();
         }
         #endregion
@@ -340,23 +337,17 @@ namespace Enum.Helper
             if (btnow != null)
             {
                 string name = btnow.Name;
-                using (EnumDBContext db = new EnumDBContext())
+                string sid = name.Substring(3, name.Length - 3);
+                int id = Convert.ToInt32(sid);
+                ButtonDate item = ActionHelper.getInfo<ButtonDate>(new KeyValuePair<string, object>("ID", id));
+                if (item == null) { return; }
+                if (item.Type == "网站")
                 {
-                    var dtall = db.Set<ButtonDate>();
-                    foreach (ButtonDate item in dtall)
-                    {
-                        if (name.Substring(3, name.Length - 3) == item.ID.ToString())
-                        {
-                            if (item.Type == "网站")
-                            {
-                                OpenBrowser(item);
-                            }
-                            if (item.Type == "链接")
-                            {
-                                OpenFiles(item);
-                            }
-                        }
-                    }
+                    OpenBrowser(item);
+                }
+                if (item.Type == "链接")
+                {
+                    OpenFiles(item);
                 }
             }
         }
@@ -372,23 +363,17 @@ namespace Enum.Helper
             if (btnow != null)
             {
                 string name = btnow.Name;
-                using (EnumDBContext db = new EnumDBContext())
+                string sid = name.Substring(3, name.Length - 3);
+                int id = Convert.ToInt32(sid);
+                ButtonDate item = ActionHelper.getInfo<ButtonDate>(new KeyValuePair<string, object>("ID", id));
+                if (item == null) { return; }
+                if (item.Type == "网站")
                 {
-                    var dtall = db.Set<ButtonDate>();
-                    foreach (ButtonDate item in dtall)
-                    {
-                        if (name.Substring(3, name.Length - 3) == item.ID.ToString())
-                        {
-                            if (item.Type == "网站")
-                            {
-                                SelectWebShow(item);
-                            }
-                            if (item.Type == "链接")
-                            {
-                                SelectAppShow(item);
-                            }
-                        }
-                    }
+                    SelectWebShow(item);
+                }
+                if (item.Type == "链接")
+                {
+                    SelectAppShow(item);
                 }
             }
         }
@@ -428,8 +413,7 @@ namespace Enum.Helper
             string bw = bd.Browser;
             string bwnew = "";
             string bwurl = bd.Url;
-            EnumDBContext db = new EnumDBContext();
-            var url = db.Set<ButtonDate>().FirstOrDefault(c => c.Name == bw);
+            var url = ActionHelper.getInfo<ButtonDate>(new KeyValuePair<string, object>("Name", bw));
             if (url != null && !string.IsNullOrEmpty(bw))
             {
                 bwnew = url.Url;
@@ -641,7 +625,7 @@ namespace Enum.Helper
                     bd.CreateIP = LoacationHelper.GetLocalIP();
                     bd.CreateMac = LoacationHelper.GetMac();
                 }
-                ActionHelper.saveButton(bd);
+                ActionHelper.saveInfo<ButtonDate>(bd);
                 SX();
             }
         }

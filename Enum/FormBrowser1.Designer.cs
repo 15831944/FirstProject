@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Enum {
+namespace EnumProject {
     using System;
     
     

@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2042
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Enum", "Enum\Enum.csproj", "{A3CCB0F9-C2D7-4FD0-AD9C-E17B00CAA131}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnumProject", "Enum\EnumProject.csproj", "{A3CCB0F9-C2D7-4FD0-AD9C-E17B00CAA131}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "EnumServer", "EnumServer\EnumServer.vdproj", "{F2FC4F99-B525-4852-AD30-24435F5A6596}"
 EndProject
