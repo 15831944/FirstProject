@@ -298,6 +298,10 @@
       <LastGenOutput>EnumDB1.cs</LastGenOutput>
     </Content>
     <Content Include="Iconp.ico" />
+    <Content Include="SourceFile\piaoxue.gif" />
+    <Content Include="SourceFile\xiaoxiang.gif" />
+    <Content Include="SourceFile\泡泡.jpg" />
+    <Content Include="SourceFile\苦行僧.gif" />
     <None Include="Resources\FrmBJ.gif" />
     <None Include="Resources\WBTN.jpg" />
     <None Include="Resources\WBGMT.jpg" />

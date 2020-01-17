@@ -82,6 +82,7 @@
             this.Controls.Add(this.btnDecode);
             this.Controls.Add(this.btnVido);
             this.Controls.Add(this.btnPassWordOrText);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;

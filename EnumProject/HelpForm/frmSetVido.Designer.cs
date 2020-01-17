@@ -135,6 +135,7 @@
             this.btnUpdateFile.TabIndex = 2;
             this.btnUpdateFile.Text = "上传";
             this.btnUpdateFile.UseVisualStyleBackColor = true;
+            this.btnUpdateFile.Click += new System.EventHandler(this.btnUpdateFile_Click);
             // 
             // panTop
             // 
